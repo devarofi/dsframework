@@ -8,7 +8,7 @@ abstract class Route
 {
     const GET = 'GET';
     const POST = 'POST';
-    static function get($url, Closure|array $target)
+    public static function get($url, Closure|array $target)
     {
         var_dump($_SERVER);
         if ($_SERVER['REQUEST_METHOD'] == self::GET) {
@@ -16,7 +16,7 @@ abstract class Route
             }
         }
     }
-    static function post($url)
+    public static function post($url)
     {
     }
 }
