@@ -8,10 +8,10 @@ use Ds\Foundations\Provider;
 
 class RouteProvider implements Provider
 {
-    public static array $routes;
-    public function addRoute($path, Closure|array $options)
+    private static array $routes;
+    public static function addRoute($path, RouteData $options)
     {
-        $this->routes[$path] = $options;
+        self::$routes[$path] = $options;
     }
     function install()
     {
@@ -21,5 +21,7 @@ class RouteProvider implements Provider
     function run()
     {
         echo '<pre>RouteProvider running..</pre>';
+        echo $_SERVER['REQUEST_URI'];
+        echo '<pre>' . print_r(self::$routes, true) . '</pre>';
     }
 }
