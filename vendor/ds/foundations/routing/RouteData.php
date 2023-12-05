@@ -2,6 +2,7 @@
 
 namespace Ds\Foundations\Routing;
 
+use ArrayIterator;
 use Closure;
 
 class RouteData

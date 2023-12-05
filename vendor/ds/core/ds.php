@@ -3,6 +3,7 @@
 namespace Ds\Core;
 
 use Ds\Dir;
+use Ds\Foundations\Common\Func;
 use Ds\Foundations\Controller\Controller;
 use Ds\Foundations\Routing\RouteProvider;
 
@@ -29,6 +30,6 @@ class Ds
    }
    public function connect()
    {
-      printf('<pre>Connected</pre>');
+      Func::check('Connected');
    }
 }
