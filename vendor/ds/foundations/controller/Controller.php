@@ -2,16 +2,17 @@
 
 namespace Ds\Foundations\Controller;
 
+use Ds\Foundations\Common\Func;
 use Ds\Foundations\Provider;
 
 class Controller implements Provider
 {
     function install()
     {
-        echo '<pre>Controller installed !</pre>';
+        Func::check('Controller installed !');
     }
     function run()
     {
-        echo '<pre>Controller running..</pre>';
+        Func::check('Controller running..');
     }
 }
