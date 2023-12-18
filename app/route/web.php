@@ -29,22 +29,22 @@ class RoutePipe
     }
 }
 
-$route_arr = [];
+$GLOBALS['route_arr'] = [];
 
-$route_arr['waw'] = new RoutePipe(function () {
+$GLOBALS['route_arr']['waw'] = new RoutePipe(function () {
     echo 'waw';
 });
-$route_arr['waw']->child['$'] = new RoutePipe(function () {
+$GLOBALS['route_arr']['waw']->child['$'] = new RoutePipe(function () {
     echo 'waw/$';
 });
-$route_arr['waw']->child['$']->child['page'] = new RoutePipe(function () {
+$GLOBALS['route_arr']['waw']->child['$']->child['page'] = new RoutePipe(function () {
     echo 'waw/$/page';
 });
 
-$route_arr['waw']->child['blue'] = new RoutePipe(function () {
+$GLOBALS['route_arr']['waw']->child['blue'] = new RoutePipe(function () {
     echo 'waw/blue';
 });
-$route_arr['waw']->child['blue']->child['page'] = new RoutePipe(function () {
+$GLOBALS['route_arr']['waw']->child['blue']->child['page'] = new RoutePipe(function () {
     echo 'waw/blue/page';
 });
 
@@ -57,16 +57,19 @@ function check($value)
     echo '</pre>';
 }
 
+function tree(string $nextPath, array $array_uri, RoutePipe $pipe)
+{
+    check(array_pop($array_uri));
+}
+
 function findRoute(string $uri)
 {
-    global $route_arr;
-    check($uri);
+    $route_arr = $GLOBALS['route_arr'];
     $array_uri = explode('/', $uri);
     foreach ($array_uri as $_uri) {
-        check($_uri);
         if ($_uri != '') {
             if (isset($route_arr[$_uri])) {
-                echo 'ada';
+                tree($_uri, $array_uri, $route_arr[$_uri]);
             }
         }
     }
