@@ -4,5 +4,7 @@ namespace App\Middlewares;
 
 class Kernel
 {
-    protected $middlewareAlias = [];
+    protected $middlewareAlias = [
+        'http' => Http::class
+    ];
 }

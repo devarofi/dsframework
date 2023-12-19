@@ -2,9 +2,10 @@
 
 namespace Ds\Foundations\Routing;
 
+use App\Middlewares\Kernel;
 use Closure;
 
-abstract class Route
+abstract class Route extends Kernel
 {
     const GET = 'GET';
     const POST = 'POST';
