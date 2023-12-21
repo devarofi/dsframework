@@ -13,7 +13,7 @@ class Server implements IRunner
     {
         $this->options = $options;
     }
-    public static function createSocketHost($host, $port, $error)
+    public function createSocketHost($host, $port, $error)
     {
         error_reporting(1);
         while (fsockopen($host, $port, $error) == TRUE) {
@@ -21,10 +21,10 @@ class Server implements IRunner
             echo "fail : $port\n";
         }
     }
-    public static function serve($_host)
+    public function serve($_host)
     {
         // get directory target, if it's root=public/
-        $dir = $options[1] ?? STRING_EMPTY;
+        $dir = $this->options[0] ?? STRING_EMPTY;
         $_host = $_host == '' ? 'localhost' : $_host;
         // is command is run
         // get a new port for web server
@@ -33,7 +33,7 @@ class Server implements IRunner
         $port = 8000;
         $err = '';
         // check active port
-        self::createSocketHost($_host, $port, $err);
+        $this->createSocketHost($_host, $port, $err);
 
         if (trim($_host) != STRING_EMPTY) {
             $_serverRun = $_host . ':' . $port;
@@ -55,6 +55,7 @@ class Server implements IRunner
     }
     public function run()
     {
-        echo 'Server was run';
+        echo ("Server was run\n");
+        $this->serve($this->options[0] ?? null);
     }
 }

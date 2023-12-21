@@ -2,14 +2,16 @@
 
 namespace Ds\Foundations\Routing;
 
+use App\Middlewares\Kernel;
 use Closure;
 use Ds\Dir;
 use Ds\Foundations\Common\Func;
+use Ds\Foundations\Network\Middleware;
+use Ds\Foundations\Network\Request;
+use Ds\Foundations\Network\Response;
 use Ds\Foundations\Provider;
 
-use function Ds\Foundations\Common\check;
-
-class RouteProvider implements Provider
+class RouteProvider extends Kernel implements Provider
 {
     private static array $routes;
     public static function addRoute($path, RouteData $options)
@@ -19,6 +21,10 @@ class RouteProvider implements Provider
         }
         $path = substr($path, 1);
         self::$routes[$path] = $options;
+    }
+    public static function assignMiddleware($path, string|array $middleware)
+    {
+        return self::$routes[$path]->middleware($middleware);
     }
     function install()
     {
@@ -74,9 +80,44 @@ class RouteProvider implements Provider
 
         Func::check('Iterating : ' . $iterate);
     }
+    public function validateMiddleware(RouteData $route): bool
+    {
+        $middlewares = null;
+        if (is_string($route->middlewares)) {
+            $middlewares = [$route->middlewares];
+        } else if (is_array($route->middlewares)) {
+            $middlewares = $route->middlewares;
+        }
+        // execute middleware 
+        $countMiddlewares = count($middlewares);
+        $continue = new Response();
+        for ($i = 0; $i < $countMiddlewares; $i++) {
+            $mName = $middlewares[$i];
+            if (!isset($this->middlewareAlias[$mName])) {
+                // TODO Error middleware not registered
+                echo 'Middleware \'' . $mName . '\' not registered!';
+                die();
+            }
+            $classM = new $this->middlewareAlias[$mName]();
+            $continue = $classM->handle(new Request(), function () {
+                return new Response();
+            }) ?? new Response(false);
+
+            if (!$continue->isValid) {
+                echo 'Stopped by middleware validation';
+                die();
+            }
+        }
+        return true;
+    }
     public function executeRoute(RouteData $route, array $params = [])
     {
         if ($route instanceof RouteData) {
+            if ($route->middlewares != null) {
+                if (!$this->validateMiddleware($route)) {
+                    return; // TODO Route Validation
+                }
+            }
             $response = null;
             if (is_array($route->target)) {
                 $obj = new $route->target[0]();

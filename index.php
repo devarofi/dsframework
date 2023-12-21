@@ -1,9 +1,3 @@
 <?php
 
-require_once './vendor/ds/base.php';
-
-use Ds\Core\Ds;
-
-$ds = new Ds();
-
-$ds->connect(); 
+include_once './public/index.php';

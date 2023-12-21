@@ -23,4 +23,7 @@ class RouteData
         $this->middlewares = $middlewares;
         $this->target = $target;
     }
+    public function middleware(string|array $middleware)
+    {
+    }
 }

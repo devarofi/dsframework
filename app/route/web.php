@@ -15,17 +15,19 @@ Route::get('/waw/blue', function () {
     echo 'page static';
 });
 
-Route::get('/waw/{arg1}/page/{good}', function ($arg1, $good) {
-    echo 'page param ' . $arg1 . ' - ' . $good;
-});
-
-Route::get('/waw/page/{arg1}/{arg2}', function () {
-    echo 'page not param';
-});
 
 Route::get('/get-json', function () {
     return ['username' => 'deva'];
 });
 Route::get('/get-string', function () {
     return 'Deva Arofi';
+});
+Route::middleware(['auth'], function () {
+    Route::get('/waw/{arg1}/page/{good}', function ($arg1, $good) {
+        echo 'page param ' . $arg1 . ' - ' . $good;
+    });
+
+    Route::get('/waw/page/{arg1}/{arg2}', function ($arg1, $arg2) {
+        echo 'page ' . $arg1 . ' param';
+    });
 });
