@@ -37,8 +37,8 @@ class Server implements IRunner
 
         if (trim($_host) != STRING_EMPTY) {
             $_serverRun = $_host . ':' . $port;
-            echo ('Ds server started on http://' . $_serverRun .
-                "\nCtrl+C to exit the server");
+            Console::write('Ds server started on http://' . $_serverRun . "\n", Console::LIGHT_GREEN);
+            Console::write("Ctrl+C to exit the server\n", Console::DARK_GRAY);
             // Open browser automatically
             $win = Str::contains($_SERVER['OS'], 'windows');
             $mac = Str::contains($_SERVER['OS'], 'mac');
@@ -50,12 +50,12 @@ class Server implements IRunner
             // Start web server command
             exec('php -S ' . $_serverRun . ' ' . $root);
         } else {
-            echo ('Failed to connect !');
+            Console::write('Failed to connect !', Console::RED);
         }
     }
     public function run()
     {
-        echo ("Server was run\n");
+        Console::write("Initializing..\n", Console::LIGHT_GREEN);
         $this->serve($this->options[0] ?? null);
     }
 }
