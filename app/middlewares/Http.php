@@ -11,8 +11,7 @@ class Http implements Middleware
 {
     function handle($request, $next): Response
     {
-        Func::check('HTTP Middleware successfully!', true);
-        Func::check($request->name, true);
+        Func::check('HTTP Middleware successfully!');
         return $next();
     }
 }
