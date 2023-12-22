@@ -131,7 +131,7 @@ class RouteProvider extends Kernel implements Provider
     }
     function response($value)
     {
-        if (is_array($value)) {
+        if (is_array($value) || is_object($value)) {
             header('Content-Type:application/json');
             echo json_encode($value);
         } else {

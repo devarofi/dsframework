@@ -26,7 +26,7 @@ Route::get('/get-string', function () {
 });
 Route::post('/new-data', function () {
     $request = new Request();
-    return $request->name;
+    return $request->json();
 });
 Route::middleware(['auth'], function () {
     Route::get('/waw/{arg1}/page/{good}', function ($arg1, $good) {
