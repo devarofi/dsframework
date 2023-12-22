@@ -1,9 +1,11 @@
 <?php
 
 use App\Controllers\IndexController;
+use Ds\Foundations\Common\Func;
+use Ds\Foundations\Network\Request;
 use Ds\Foundations\Routing\Route;
 
-Route::get('/', [IndexController::class, 'index']);
+Route::get('/', [IndexController::class, 'index'])->middleware('http');
 
 Route::get('/other', [IndexController::class, 'otherpage']);
 
@@ -21,6 +23,10 @@ Route::get('/get-json', function () {
 });
 Route::get('/get-string', function () {
     return 'Deva Arofi';
+});
+Route::post('/new-data', function () {
+    $request = new Request();
+    return $request->name;
 });
 Route::middleware(['auth'], function () {
     Route::get('/waw/{arg1}/page/{good}', function ($arg1, $good) {

@@ -5,7 +5,8 @@ namespace Ds\Foundations\Routing;
 use ArrayIterator;
 use Closure;
 
-class RouteData
+
+class RouteData extends BaseRoute
 {
     public string $method;
     public string $path;
@@ -25,5 +26,6 @@ class RouteData
     }
     public function middleware(string|array $middleware)
     {
+        $this->middlewares = is_string($middleware) ? [$middleware] : $middleware;
     }
 }

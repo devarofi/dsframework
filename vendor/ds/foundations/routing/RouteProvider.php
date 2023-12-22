@@ -34,7 +34,7 @@ class RouteProvider extends Kernel implements Provider
     function run()
     {
         Func::check('RouteProvider running..');
-        $uri = $_SERVER['REQUEST_URI'];
+        $uri = $_SERVER['PATH_INFO'] ?? '/';
         if ($uri == '/') {
             $uri = '/index';
         }
@@ -44,7 +44,7 @@ class RouteProvider extends Kernel implements Provider
     }
     public function findRoute(string $request)
     {
-        $route_arr = RouteProvider::$routes;
+        $route_arr = self::$routes;
 
         $arr_request = explode('/', $request);
         $rqc = count($arr_request);

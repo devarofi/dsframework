@@ -9,9 +9,10 @@ use Ds\Foundations\Network\Response;
 
 class Http implements Middleware
 {
-    function handle(Request $request, $next): Response
+    function handle($request, $next): Response
     {
-        Func::check('HTTP Middleware successfully!');
+        Func::check('HTTP Middleware successfully!', true);
+        Func::check($request->name, true);
         return $next();
     }
 }
