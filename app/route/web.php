@@ -17,13 +17,6 @@ Route::get('/waw/blue', function () {
     echo 'page static';
 });
 
-
-Route::get('/get-json', function () {
-    return ['username' => 'deva'];
-});
-Route::get('/get-string', function () {
-    return 'Deva Arofi';
-});
 Route::post('/new-data', function () {
     $request = new Request();
     return $request->json();
@@ -35,5 +28,10 @@ Route::middleware(['auth'], function () {
 
     Route::get('/waw/page/{arg1}/{arg2}', function ($arg1, $arg2) {
         echo 'page ' . $arg1 . ' param';
+    });
+});
+Route::group('admin', function () {
+    Route::get('/get-string', function () {
+        return ['username' => 'Dev'];
     });
 });

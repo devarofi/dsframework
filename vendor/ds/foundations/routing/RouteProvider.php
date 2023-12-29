@@ -48,7 +48,6 @@ class RouteProvider extends Kernel implements Provider
 
         $arr_request = explode('/', $request);
         $rqc = count($arr_request);
-
         $iterate = 0;
         foreach ($route_arr as $route => $callback) {
             $arr_route = explode('/', $route);

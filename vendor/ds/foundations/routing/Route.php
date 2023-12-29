@@ -4,6 +4,7 @@ namespace Ds\Foundations\Routing;
 
 use App\Middlewares\Kernel;
 use Closure;
+use Ds\Foundations\Common\Func;
 
 abstract class Route extends Kernel
 {
@@ -13,6 +14,7 @@ abstract class Route extends Kernel
     const DELETE = 'DELETE';
     private static array|null $middlewares;
     private static $EMPTY_ROUTE;
+    private static $groupName = null;
     private static function emptyRoute(): BaseRoute
     {
         if (self::$EMPTY_ROUTE == null) {
@@ -23,6 +25,9 @@ abstract class Route extends Kernel
 
     private static function registerRoute($url, Closure|array $target)
     {
+        if (self::$groupName != null) {
+            $url = self::$groupName . $url;
+        }
         $route = new RouteData(
             $_SERVER['REQUEST_METHOD'],
             $url,
@@ -70,5 +75,11 @@ abstract class Route extends Kernel
         self::$middlewares = is_string($middlewares) ? [$middlewares] : $middlewares;
         $routes();
         self::$middlewares = null;
+    }
+    public static function group(String $name, Closure $routes)
+    {
+        self::$groupName = '/' . trim($name, " \n\r\t\v\0/");
+        $routes();
+        self::$groupName = null;
     }
 }
