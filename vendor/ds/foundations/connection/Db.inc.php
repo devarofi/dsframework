@@ -3,7 +3,6 @@
 namespace Ds\Foundations\Connection;
 
 use Closure;
-use Ds\Base\App\Constants\Indexes;
 use Ds\Foundations\Core;
 use Ds\Base\Exceptions\dsException;
 use Ds\Foundations\Connection\Arch\QueryCommon;

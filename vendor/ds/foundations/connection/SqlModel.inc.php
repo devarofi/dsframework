@@ -7,7 +7,7 @@ use Ds\Foundations\Connection\Arch\Sets\Set;
 use Ds\Foundations\Connection\Arch\Sets\SetRaw;
 use Ds\Foundations\Connection\Arch\Sets\SetWhere;
 use Ds\Foundations\Connection\Arch\Sets\SetWhereRaw;
-use Ds\Foundations\Console\helper\Str;
+use Ds\helper\Str;
 
 class SqlModel extends QueryCommon
 {
