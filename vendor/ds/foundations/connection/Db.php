@@ -2,19 +2,21 @@
 
 namespace Ds\Foundations\Connection;
 
-use Closure;
-use Ds\Foundations\Core;
-use Ds\Base\Exceptions\dsException;
 use Ds\Foundations\Connection\Arch\QueryCommon;
 use Ds\Foundations\Connection\Arch\Sets\Join;
 use Ds\Foundations\Connection\Arch\Sets\Set;
 use Ds\Foundations\Connection\Arch\Sets\SetWhere;
 use Ds\Foundations\Connection\Arch\Sets\SetWhereRaw;
+use Ds\Foundations\Exceptions\dsException;
+use Ds\Foundations\Provider;
+use Ds\Helper\Str;
 use Exception;
+use Closure;
+use Ds\Foundations\Config\Env;
 use PDO;
 use PDOException;
 
-use function Ds\Base\App\Config\env;
+use function Ds\Foundations\Config\env;
 
 define('SQLSERV', 'sqlserv');
 define('MYSQL', 'mysql');
@@ -103,6 +105,7 @@ class Db extends QueryCommon
         $this->identity = Db::$identity_increment;
         Db::$identity_increment++;
         $this->sqlModel = new SqlModel($this, $this->quotSql, $this->endQuotSql, $this->bindSymbol);
+        $this->getConnection();
     }
     /**
      * @param  string $provider
@@ -110,30 +113,28 @@ class Db extends QueryCommon
      */
     public function setupProvider()
     {
-        $this->driver = env('DRIVER');
-        $this->host = env('HOST');
-        $this->username = env('USERNAME');
-        $this->password = env('PASSWORD');
-        $this->database = env('DATABASE');
-        if (
-            $this->driver == MYSQL ||
-            $this->driver == POSTGRE ||
-            $this->driver == SQLSERV
-        ) {
-            $this->setup();
-        } else {
-            throw new Exception("Provider not supported");
+        $this->driver = Env::get('DRIVER');
+        $this->host = Env::get('HOST');
+        $this->username = Env::get('USERNAME');
+        $this->password = Env::get('PASSWORD');
+        $this->database = Env::get('DATABASE');
+        
+        try {
+            if(empty($this->database)){
+                throw new dsException('Database not found!');
+            }
+            if (
+                $this->driver == MYSQL ||
+                $this->driver == POSTGRE ||
+                $this->driver == SQLSERV
+            ) {
+                $this->setup();
+            } else {
+                throw new Exception("Provider not supported");
+            }
+        } catch (dsException $th) {
+            //throw $th;
         }
-    }
-    public function install($core)
-    {
-        $core->addModules(self::$module_name, $this);
-        $this->installConnection($core);
-    }
-    public static function getModule()
-    {
-        $keyName = self::$module_name;
-        return Core::$modules[$keyName];
     }
     /**
      * Get pdo connection instance
@@ -143,31 +144,18 @@ class Db extends QueryCommon
     public function getConnection()
     {
         try {
-            if (isset(Core::$modules[self::$CONNECTION_KEYNAME])) {
-                $this->connection = Core::$modules[self::$CONNECTION_KEYNAME];
-            }
-            // if ($this->database != STRING_EMPTY) {
             $con_string = $this->getHostConnection();
             if (is_null($this->connection)) {
-                $this->connection = new PDO($con_string, env('USERNAME'), env('PASSWORD'));
+                $this->connection = new PDO($con_string, Env::get('USERNAME'), Env::get('PASSWORD'));
                 $this->connection->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
             }
             // return PDO instance
             return $this->connection;
-            // }else {
-            // 	$ex = new Exception("Database not found!<br/><b>Please check your configuration file!</b>", 1);
-            // 	throw new dsException($ex, 'config/config.inc.php', FALSE);
-            // }
         } catch (PDOException $ex) {
             $ex = new dsException($ex, __FILE__);
             $ex->show_exception(true);
             die();
         }
-    }
-    public static $CONNECTION_KEYNAME = '__connection_db';
-    public function installConnection(Core $core)
-    {
-        $core->addModules(self::$CONNECTION_KEYNAME, $this->connection);
     }
     /**
      * Generate and get connection string from configuration
@@ -777,7 +765,7 @@ class Db extends QueryCommon
     {
         $dbClone = $this->clone();
         $dbClone = $subQuery($dbClone);
-        if (!string_empty_or_null($alias))
+        if (!empty($alias))
             $dbClone->identity = $alias;
         $queryTarget = $dbClone->generateQuery();
         $this->copyProperties($dbClone);
@@ -892,13 +880,14 @@ class Db extends QueryCommon
         $resultWhere = STRING_EMPTY;
         if ($this->whereValues)
             $resultWhere = $this->wrapWhere($this->whereValues);
-        if (string_empty_or_null($resultWhere))
+        if (empty($resultWhere))
             return $resultWhere;
         return (!is_null($this->queryType) ? ' WHERE ' : STRING_EMPTY) . $resultWhere;
     }
     private function wrapWhere($whereValues, &$operator = null)
     {
 
+        if($whereValues == null) return STRING_EMPTY;
         $whereLength = count($whereValues);
         if ($whereLength == 0) return STRING_EMPTY;
 
@@ -990,7 +979,7 @@ class Db extends QueryCommon
     }
     public function having($rawQuery)
     {
-        if (!string_empty_or_null($rawQuery));
+        if (!empty($rawQuery));
         $this->havingAdditional = ' HAVING ' . $rawQuery;
         return $this;
     }
@@ -1001,6 +990,7 @@ class Db extends QueryCommon
      */
     private function generateJoins()
     {
+        if($this->joinValues == null) return STRING_EMPTY;
         $joinLength = count($this->joinValues);
         if ($joinLength == 0) return STRING_EMPTY;
 

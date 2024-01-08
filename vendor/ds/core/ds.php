@@ -4,8 +4,11 @@ namespace Ds\Core;
 
 use Ds\Dir;
 use Ds\Foundations\Common\Func;
+use Ds\Foundations\Connection\DatabaseProvider;
 use Ds\Foundations\Controller\Controller;
+use Ds\Foundations\Exceptions\dsException;
 use Ds\Foundations\Routing\RouteProvider;
+
 
 class Ds
 {
@@ -14,7 +17,8 @@ class Ds
    {
       $this->providers = [
          new RouteProvider(),
-         new Controller()
+         new Controller(),
+         new DatabaseProvider()
       ];
       Dir::init();
       $this->loadProviders();

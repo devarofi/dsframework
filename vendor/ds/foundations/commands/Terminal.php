@@ -2,6 +2,7 @@
 
 namespace Ds\Foundations\Commands;
 
+use Ds\Dir;
 use Exception;
 
 class Terminal
@@ -13,6 +14,7 @@ class Terminal
 
     public function __construct($argv)
     {
+        Dir::init();
         $this->args = array_slice($argv, 1);
         $this->validate();
     }

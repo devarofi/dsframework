@@ -2,7 +2,7 @@
 
 namespace Ds\Foundations\Connection;
 
-use Ds\Base\Exceptions\dsException;
+use Ds\Foundations\Exceptions\dsException;
 use Exception;
 
 class SqlOperator

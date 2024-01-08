@@ -4,14 +4,14 @@ namespace Ds\Foundations\Commands;
 
 use Ds\Helper\Str;
 
-define('STRING_EMPTY', '');
-
 class Server implements IRunner
 {
     private $options = [];
     public function __construct($options = [])
     {
         $this->options = $options;
+        $envGenerator = new EnvGenerator();
+        $envGenerator->run();
     }
     public function createSocketHost($host, $port, $error)
     {
@@ -53,8 +53,16 @@ class Server implements IRunner
             Console::write('Failed to connect !', Console::RED);
         }
     }
+    private function title(){
+        Console::write("
+ ___      __                                   _   
+|   \ ___/ _|_ _ __ _ _ __  _____ __ _____ _ _| |__
+| |) (_-<  _| '_/ _` | '  \/ -_) V  V / _ \ '_| / /
+|___//__/_| |_| \__,_|_|_|_\___|\_/\_/\___/_| |_\_\\\n\n");
+    }
     public function run()
     {
+        $this->title();
         Console::write("Initializing..\n", Console::LIGHT_GREEN);
         $this->serve($this->options[0] ?? null);
     }

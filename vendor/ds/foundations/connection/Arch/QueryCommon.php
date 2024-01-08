@@ -1,6 +1,7 @@
 <?php
 
 namespace Ds\Foundations\Connection\Arch;
+use Ds\Helper\Str;
 
 use PDO;
 
@@ -71,7 +72,7 @@ class QueryCommon
         if ($text == "*" || $text[0] == $this->quotSql) {
             return $text;
         }
-        if (string_empty_or_null($text)) return $text;
+        if (empty($text)) return $text;
 
         return $this->quotSql . $text . $this->endQuotSql;
     }
@@ -85,7 +86,7 @@ class QueryCommon
     protected function WrapQuot($name, $reverseQuot = false)
     {
         $name = trim($name);
-        if (string_empty($name)) return $name;
+        if (empty($name)) return $name;
         $isRaw = $this->checkRaw($name);
         if ($isRaw) return $name;
 
@@ -96,14 +97,14 @@ class QueryCommon
             $param = substr($name, $wrapStart + 1, strrpos($name, ')') - 4);
             return $funcName . '(' . $this->WrapQuot($param) . ')' . substr($name, strrpos($name, ')') + 1);
         }
-        if (string_contains('.', $name)) {
+        if (Str::contains($name, '.')) {
             $columnName = substr($name, strpos($name, '.') + 1);
             $columnAlias = array_map(function ($a) {
                 return $this->FixQuot($a);
             }, explode(' ', $columnName));
             return substr($name, 0, strpos($name, '.') + 1) . implode(' ', $columnAlias);
         }
-        if (string_contains(' ', $name)) {
+        if (Str::contains(' ', $name)) {
             $spaceIdx = strrpos($name, ' ');
             $selected = substr($name, 0, $spaceIdx);
             $alias = substr($name, $spaceIdx + 1);
@@ -137,7 +138,7 @@ class QueryCommon
     }
     protected function assignBindSymbol($paramName)
     {
-        if (string_empty_or_null($paramName)) return $paramName;
+        if (empty($paramName)) return $paramName;
         if ($paramName[0] == $this->bindSymbol) return $paramName;
         else return $this->bindSymbol . trim($paramName);
     }
@@ -159,7 +160,7 @@ class QueryCommon
         if (!is_string($value))
             return false;
 
-        if (string_empty_or_null($value)) {
+        if (empty($value)) {
             return false;
         }
         if ($value[0] == '!' && $value[1] == '!') {

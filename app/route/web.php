@@ -1,6 +1,7 @@
 <?php
 
 use App\Controllers\IndexController;
+use App\Models\Account;
 use Ds\Foundations\Common\Func;
 use Ds\Foundations\Network\Request;
 use Ds\Foundations\Routing\Route;
@@ -34,4 +35,9 @@ Route::group('admin', function () {
     Route::get('/get-string', function () {
         return ['username' => 'Dev'];
     });
+});
+
+Route::get('/account', function(){
+    $account = Account::all();
+    return $account;
 });

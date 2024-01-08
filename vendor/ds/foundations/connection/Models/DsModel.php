@@ -6,13 +6,8 @@
 
 namespace Ds\Foundations\Connection\Models;
 
-use Ds\Base\App\Constants\Key;
-use Ds\Foundations\Core;
+use Ds\Foundations\Connection\DatabaseProvider;
 use Ds\Foundations\Connection\Db;
-use Ds\Providers\Db\QueryBuilder;
-use PDO;
-
-use function Ds\Foundations\Console\to_snake;
 
 class DsModel
 {
@@ -26,15 +21,11 @@ class DsModel
     public function __construct()
     {
         if ($this->table == NULL) {
-            $this->table = str_replace(Key::MODEL, '', get_called_class());
+            $this->table = str_replace('Model', '', get_called_class());
             $this->table = substr($this->table, strrpos($this->table, '\\') + 1);
             $this->table = strtolower($this->table);
         }
-        if (isset(Core::$modules[Db::$module_name]) == false) {
-            $db = new Db();
-            $db->install(Core::$instance);
-        }
-        $this->connection = Core::$modules[Db::$module_name];
+        $this->connection = DatabaseProvider::$db;
     }
     /**
      * Generating select query

@@ -2,16 +2,18 @@
 
 namespace App\Controllers;
 
+use App\Models\Account;
 use Ds\Foundations\Controller\Controller;
 
 class IndexController extends Controller
 {
     public function index()
     {
-        echo 'Hello from controller';
+        $data = Account::all();
+        return ['data' => $data];
     }
     public function otherpage()
     {
-        echo 'From index to Other page';
+        view('welcome');
     }
 }

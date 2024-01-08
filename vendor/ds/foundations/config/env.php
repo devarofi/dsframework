@@ -2,8 +2,11 @@
 
 namespace Ds\Foundations\Config;
 
-function env($key, $default = NULL)
+class Env
 {
-    global $CACHE_CONFIG;
-    return $CACHE_CONFIG[$key] ?? $default;
+    public static function get($key, $default = NULL)
+    {
+        global $CACHE_CONFIG;
+        return $CACHE_CONFIG[$key] ?? $default;
+    }
 }
