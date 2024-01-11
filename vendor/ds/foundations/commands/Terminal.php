@@ -3,6 +3,7 @@
 namespace Ds\Foundations\Commands;
 
 use Ds\Dir;
+use Ds\Foundations\Commands\Serve\Server;
 use Exception;
 
 class Terminal

@@ -1,0 +1,13 @@
+{
+    "autoload": {
+        "files": [
+            "vendor/ds/base.php"
+        ],
+        "psr-4": {
+            "Ds\\": "vendor/ds"
+        }
+    },
+    "require": {
+        "firebase/php-jwt": "^6.10"
+    }
+}

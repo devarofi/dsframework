@@ -8,12 +8,14 @@ define('STRING_EMPTY', '');
 define("ROOT", dirname(__DIR__, 2));
 
 spl_autoload_register(function ($name) {
+    $namespace = substr($name, 0, strpos($name, '\\'));
     // check if $name is from DS namespace
-    if (substr($name, 0, 3) == 'Ds\\') {
+    if ($namespace == 'Ds') {
         require_once dirname(__DIR__) . '\\' . $name . '.php';
-    } else {
+    } else if($namespace == 'App'){
         require_once dirname(dirname(__DIR__)) . '\\' . $name . '.php';
     }
+    
 });
 abstract class AppIndex {
     public static $SERVER_PROTOCOL;
@@ -53,7 +55,6 @@ abstract class Dir
 
     static function init()
     {
-        AppIndex::init();
         self::$MAIN = dirname(__DIR__, 2).'/';
         self::$APP = self::$MAIN . 'app/';
         self::$ROUTE = self::$APP . 'route/';

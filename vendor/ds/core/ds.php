@@ -2,6 +2,7 @@
 
 namespace Ds\Core;
 
+use Ds\AppIndex;
 use Ds\Dir;
 use Ds\Foundations\Common\Func;
 use Ds\Foundations\Connection\DatabaseProvider;
@@ -15,6 +16,7 @@ class Ds
    private array $providers;
    public function __construct()
    {
+      AppIndex::init();
       $this->providers = [
          new RouteProvider(),
          new Controller(),

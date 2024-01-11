@@ -121,8 +121,10 @@ class RouteProvider extends Kernel implements Provider
             if (is_array($route->target)) {
                 $obj = new $route->target[0]();
                 $route->target[0] = $obj;
+                $params[] = new Request();
                 $response = call_user_func_array($route->target, $params);
             } else if ($route->target instanceof Closure) {
+                $params[] = new Request();
                 $response = call_user_func_array($route->target, $params);
             }
             $this->response($response);

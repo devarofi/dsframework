@@ -1,43 +1,17 @@
 <?php
 
 use App\Controllers\IndexController;
+use App\Controllers\PersonController;
 use App\Models\Account;
 use Ds\Foundations\Common\Func;
 use Ds\Foundations\Network\Request;
 use Ds\Foundations\Routing\Route;
 
 Route::get('/', [IndexController::class, 'index'])->middleware('http');
+Route::get('/access-token', [IndexController::class, 'getToken']);
 
-Route::get('/other', [IndexController::class, 'otherpage']);
-
-Route::get('/waw', function () {
-    echo 'GOod';
-});
-
-Route::get('/waw/blue', function () {
-    echo 'page static';
-});
-
-Route::post('/new-data', function () {
-    $request = new Request();
-    return $request->json();
-});
-Route::middleware(['auth'], function () {
-    Route::get('/waw/{arg1}/page/{good}', function ($arg1, $good) {
-        echo 'page param ' . $arg1 . ' - ' . $good;
-    });
-
-    Route::get('/waw/page/{arg1}/{arg2}', function ($arg1, $arg2) {
-        echo 'page ' . $arg1 . ' param';
-    });
-});
-Route::group('admin', function () {
-    Route::get('/get-string', function () {
-        return ['username' => 'Dev'];
-    });
-});
-
-Route::get('/account', function(){
-    $account = Account::all();
-    return $account;
+Route::group('api', function(){
+  Route::get('/person', [PersonController::class, 'index']);
+  Route::post('/person/add', [PersonController::class, 'savePerson']);
+  Route::post('/person/delete', [PersonController::class, 'deletePerson']);
 });

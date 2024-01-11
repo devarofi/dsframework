@@ -1,6 +1,6 @@
 <?php
 
-include_once '../vendor/ds/base.php';
+include_once '../vendor/autoload.php';
 
 use Ds\Core\Ds;
 

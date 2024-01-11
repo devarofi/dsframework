@@ -49,9 +49,13 @@ class DsModel
      * @param  string|string[] $arg2 will be table name
      * @return Db
      */
-    public function select($columns, $from = NULL)
+    public static function select($columns = null, $from = NULL)
     {
-        return $this->connection->select($columns, $from);
+        $classname = get_called_class();
+        $obj = new $classname;
+        if(is_null($columns))
+            $columns = $obj->table;
+        return $obj->connection->select($columns, $from);
         // return $this;
     }
     public function query($syntax)
@@ -333,16 +337,20 @@ class DsModel
     }
     public static function save($data)
     {
+        $data = (object)$data;
         $className = get_called_class();
         $obj = new $className();
         $tableName = $obj->table;
-        $id = $data->id ?? $data['id'];
+        $id = $data->id ?? 0;
         $isExist = $obj->select($tableName)->where('id', $id)->get_exist();
         $data = (array) $data;
         if ($isExist) {
             $obj->update($tableName, $data)->where('id', $id)->execute();
         } else {
             $obj->insert($tableName, $data);
+        }
+        if(isset($data['timestamp'])){
+            return $obj->select($tableName)->where('timestamp', $data['timestamp'])->get_row_assoc();
         }
     }
     public static function remove($id)
