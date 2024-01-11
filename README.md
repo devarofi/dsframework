@@ -28,7 +28,15 @@ class IndexController extends Controller
     }
 
     public function savePeople(Request $request){
-
+        // Save json data
+        People::save($request->json());
+        // OR specify request field
+        People::save([
+            'fullname' => $request->fullname,
+            'phone' => $request->phone
+        ]);
+        // OR all Request Form Field Data
+        People::save($request->all());
     }
 
     public function welcomePage()
@@ -46,6 +54,7 @@ Example :
 Route::get('/', [IndexController::class, 'index']);
 Route::get('/welcome', [IndexController::class, 'welcomePage']);
 Route::get('/people', [IndexController::class, 'peopleList']);
+Route::post('/people/save', [IndexController::class, 'savePeople']);
 
 // simple route
 Route::get('/sample/subsample', function () {
