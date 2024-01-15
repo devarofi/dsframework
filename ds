@@ -4,4 +4,4 @@ require_once './vendor/ds/base.php';
 use Ds\Foundations\Commands\Terminal;
 
 $kernel = new Terminal($argv);
-$kernel->serve();
+$kernel->start();

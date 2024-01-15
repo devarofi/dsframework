@@ -8,6 +8,7 @@ namespace Ds\Foundations\Connection\Models;
 
 use Ds\Foundations\Connection\DatabaseProvider;
 use Ds\Foundations\Connection\Db;
+use Ds\Helper\Date;
 
 class DsModel
 {
@@ -330,12 +331,25 @@ class DsModel
 
     public static function find($id, $columns = '*')
     {
+        return self::findBy('id', $id, $columns);
+        // $className = get_called_class();
+        // $obj = new $className();
+        // $tableName = $obj->table;
+        // return $obj->select($columns, $tableName)->where('id', $id)->get_row_object();
+    }
+    public static function findBy($columnName, $columnValue, $columns = '*'){
         $className = get_called_class();
         $obj = new $className();
         $tableName = $obj->table;
-        return $obj->select($columns, $tableName)->where('id', $id)->get_row_object();
+        return $obj->select($columns, $tableName)->where($columnName, $columnValue)->get_row_object();
     }
-    public static function save($data)
+    public static function exist($columnName, $columnValue){
+        $className = get_called_class();
+        $obj = new $className();
+        $tableName = $obj->table;
+        return $obj->select($tableName)->where($columnName, $columnValue)->exist();
+    }
+    public static function save($data, $return = false)
     {
         $data = (object)$data;
         $className = get_called_class();
@@ -349,7 +363,11 @@ class DsModel
         } else {
             $obj->insert($tableName, $data);
         }
-        if(isset($data['timestamp'])){
+        $includeTimestamp = isset($data['timestamp']);
+        if($includeTimestamp || $return){
+            if(!$includeTimestamp){
+                $data['timestamp'] = Date::timestamp();
+            }
             return $obj->select($tableName)->where('timestamp', $data['timestamp'])->get_row_assoc();
         }
     }

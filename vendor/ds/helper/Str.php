@@ -6,7 +6,7 @@ class Str
 {
     public static function contains(string $text, string $find): bool
     {
-        return stristr($find, $text) != false;
+        return stristr($text, $find) != false;
     }
     /**
      * Find Replace text
@@ -24,5 +24,8 @@ class Str
             }
             return $source;
         }
+    }
+    public static function empty($value){
+        return $value == STRING_EMPTY;
     }
 }

@@ -7,12 +7,9 @@
 </head>
 <body>
   <h3>This is Main Pages</h3>
-  
-  Welcome to the <?php echo('DS Framework V3'); ?>
-
+  @slot('contents')
   <footer>
     This is footer
   </footer>
 </body>
 </html>
-

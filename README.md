@@ -103,4 +103,16 @@ Example : ``welcome.pie.php``
 </html>
 ```
 
+### Pie Cheat Sheet
+|Syntax|Closing|Description|
+|-|-|-|
+|``{{ ... }}``|``-``|Same as ``echo(...)`` in php|
+|``<< ... >>``|``-``|Same as ``<?php ... ?>`` in php|
+|``@slot(..)``|``-``|Create a slot for templating|
+|``@use(..)``|``-``|To use a template that includes ``@slot`` syntax|
+|``@part(..)``|``@endpart``|To inject a content into ``@slot(..)``|
+|``@foreach(..):``|``@endforeach``|Same as ``<?php foreach(..): `` in php|
+|``@if(...):``|``@endif``|Same as ``<?php if(..): ?>`` in php|
+
+
 based on @daevsoft - dsframework

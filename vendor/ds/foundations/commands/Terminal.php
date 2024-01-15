@@ -3,14 +3,16 @@
 namespace Ds\Foundations\Commands;
 
 use Ds\Dir;
+use Ds\Foundations\Commands\Generator\AddFile;
 use Ds\Foundations\Commands\Serve\Server;
-use Exception;
+use Ds\Helper\Str;
 
 class Terminal
 {
     private $args;
     private $commandList = [
-        'serve' => Server::class
+        'serve' => Server::class,
+        'add:*' => AddFile::class
     ];
 
     public function __construct($argv)
@@ -22,20 +24,28 @@ class Terminal
     private function validate()
     {
         if (count($this->args) == 0) {
-            echo ('Command can\'t be empty!');
+            Console::write('Command can\'t be empty!');
             die();
         }
     }
 
-    public function serve()
+    public function start()
     {
         $command = $this->args[0];
+        $otherArg = '';
+        if(Str::contains($command, ':')){
+            $otherArg = substr($command, strpos($command, ':') + 1);
+            $command = substr($command, 0, strpos($command, ':')+1).'*';
+        }
         if (isset($this->commandList[$command])) {
             $options = count($this->args) > 1 ? array_slice($this->args, 1) : [];
+            if(!Str::empty($otherArg)){
+                $options = [$otherArg, ...$options];
+            }
             $runner = new $this->commandList[$command]($options);
             $runner->run();
         } else {
-            echo ('Command [' . $this->args[0] . '] not found!');
+            Console::write('Command [' . $this->args[0] . '] not found!');
             die();
         }
     }

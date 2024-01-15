@@ -52,7 +52,7 @@ class PageProvider implements Provider
                 throw new Exception('File view <b>' . $this->_filenames . '</b> not found!');
             }
             // Check is Using template or not
-            if(!Str::contains('.pie', $__fl)){
+            if(!Str::contains($__fl, '.pie')){
                 // Extract All Variable
                 extract($__dt);
                 require($this->_filenames);
@@ -72,7 +72,6 @@ class PageProvider implements Provider
         $file_gen_enc = sha1($this->_filenames).'.php';
         $dir_cache = Dir::$CACHE_VIEW.$file_gen_enc;
         $cache = new CacheView($dir_cache, $this->_filenames);
-
         // Checking cache time
         if(!$cache->exists()
         || ($cache->is_modified() 

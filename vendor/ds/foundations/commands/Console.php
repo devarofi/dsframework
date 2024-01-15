@@ -25,4 +25,8 @@ class Console
         print($color . $text . $color);
         print(self::DEFAULT);
     }
+    public static function writeln(string $text, $color = Console::DEFAULT)
+    {
+        self::write($text . "\n", $color);
+    }
 }

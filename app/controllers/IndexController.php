@@ -2,10 +2,10 @@
 
 namespace App\Controllers;
 
-use App\Models\Account;
-use App\Models\Person;
+use Ds\Helper\Str;
 use Ds\Foundations\Config\Env;
 use Ds\Foundations\Controller\Controller;
+use Ds\Foundations\Network\Request;
 use Firebase\JWT\JWT;
 
 class IndexController extends Controller
@@ -14,10 +14,14 @@ class IndexController extends Controller
     {
         view('welcome');
     }
-    public function getToken(){
+    public function getToken(Request $request){
+        if(Str::empty($request->access_token) || Str::empty($request->email))
+        {
+            return ['token' => null];
+        }
         $payload = [
-            'name' => 'muhamad deva arofi',
-            'email' => 'deva@gmail.com'
+            'token' => $request->access_token,
+            'email' => $request->email
         ];
         $secret_key = Env::get('SECRET_KEY');
         $jwt = JWT::encode($payload, $secret_key, 'HS256');

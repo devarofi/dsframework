@@ -52,6 +52,7 @@ abstract class Dir
     static string $CACHE_VIEW;
     static string $CACHE_TIME;
     static string $VENDOR;
+    static string $TRASH;
 
     static function init()
     {
@@ -63,6 +64,7 @@ abstract class Dir
         self::$VIEWS = self::$APP . 'views/';
         self::$MIDDLEWARES = self::$APP . 'middleware/';
         self::$STORAGE = self::$MAIN . 'storage/';
+        self::$TRASH = self::$STORAGE . 'trash/';
         self::$CACHE = self::$STORAGE . 'cache/';
         self::$CACHE_VIEW = self::$CACHE.'views/';
         self::$CONFIG_TEMP = self::$CACHE . 'config.temp.php';
