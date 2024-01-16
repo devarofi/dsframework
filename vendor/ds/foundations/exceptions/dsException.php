@@ -77,7 +77,6 @@ class dsException extends Exception
             $filename = $this->filename;
             $additionalMessage = $this->additionalMessage ?? '';
             include (__DIR__.'/view/exception.php');
-            die();
         }
     }
     public function display_line_error($_arrFile, $_line)
