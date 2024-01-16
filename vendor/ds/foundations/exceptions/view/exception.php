@@ -209,7 +209,10 @@ use function Ds\Base\App\Config\env;
             <div class="errcode-files">
                 <ul>
                 <?php $i = 0 ?>
-                <?php foreach ($arrTrace as $trace) { ?>
+                <?php 
+                foreach ($arrTrace as $trace) {
+                    if(!isset($trace['file'])) continue;
+                    ?>
                     <li onclick="showCode(this)" data-line="<?php echo $i ?>" class="<?php echo $i == 0 ? 'file-selected' : '' ?>">
                         <?php 
                         if(isset($trace['file'])){
@@ -225,7 +228,8 @@ use function Ds\Base\App\Config\env;
             </div>
             <div class="errcode-wrapper">
             <?php $i = 0 ?>
-            <?php foreach ($arrTrace as $trace) { ?>
+            <?php foreach ($arrTrace as $trace) {
+                    if(!isset($trace['file'])) continue; ?>
                 <div class="errcode-lines <?php echo $i == 0 ? '' : 'hide' ?>" data-line="<?php echo $i ?>">
                     <?php
                         echo $this->display_line_error(file($trace['file']), $trace['line']);

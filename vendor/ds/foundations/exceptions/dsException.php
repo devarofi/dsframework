@@ -1,6 +1,8 @@
 <?php
 namespace Ds\Foundations\Exceptions;
 
+use Ds\Foundations\Common\Func;
+use Ds\Foundations\Debugger\Debug;
 use Exception;
 
 class dsException extends Exception
@@ -9,6 +11,20 @@ class dsException extends Exception
     private $filename;
     private $filename_real;
     private $additionalMessage = '';
+    public static function init(){
+        set_error_handler(function($code, $msg, $filename, $line){
+            $dsE = new dsException($msg, $filename, $line);
+            $dsE->show_exception(true);
+            Debug::error($dsE);
+            die();
+        });
+        set_exception_handler(function($ex){
+            $dsE = new dsException($ex, $ex->getFile(), $ex->getLine(), $ex->getMessage());
+            $dsE->show_exception(true);
+            Debug::error($dsE);
+            die();
+        });
+    }
     public function addMessage($message)
     {
         $this->additionalMessage .= $message;
@@ -52,9 +68,9 @@ class dsException extends Exception
     public function show_exception(bool $_show_line)
     {
         // Get All Trace
-        if($this->exception instanceof Exception){
+        if($this->exception instanceof Exception || is_object($this->exception)){
             // header_remove('Content-Type');
-            header('Content-Type:text/html');
+            // header('Content-Type:text/html');
             $arrTrace = $this->exception->getTrace();
             $filename = $this->filename;
             $additionalMessage = $this->additionalMessage ?? '';
@@ -91,9 +107,3 @@ class dsException extends Exception
         return $result2;
     }
 }
-
-set_error_handler(function($code, $msg, $filename, $line){
-    $dsE = new dsException($msg, $filename, $line);
-    $dsE->show_exception(true);
-    die();
-});

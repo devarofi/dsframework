@@ -1,19 +1,11 @@
 <?php
 
-include_once '../vendor/autoload.php';
+include_once dirname(__DIR__).'/vendor/autoload.php';
 
 use Ds\Core\Ds;
 use DebugBar\StandardDebugBar;
 use Ds\Foundations\Config\Env;
+use Symfony\Component\VarDumper\VarDumper;
 
-$debugbar = new StandardDebugBar();
-$debugbarRenderer = $debugbar->getJavascriptRenderer();
-
-$debugbar["messages"]->addMessage("hello world!");
 $ds = new Ds();
-
 $ds->connect();
-
-if(Env::get('DEBUG_BAR') == 'true'){
-  echo $debugbarRenderer->render();
-}

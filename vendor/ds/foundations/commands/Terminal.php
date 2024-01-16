@@ -12,7 +12,8 @@ class Terminal
     private $args;
     private $commandList = [
         'serve' => Server::class,
-        'add:*' => AddFile::class
+        'add:*' => AddFile::class,
+        'config' => EnvGenerator::class
     ];
 
     public function __construct($argv)

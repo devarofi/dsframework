@@ -12,6 +12,7 @@ class IndexController extends Controller
 {
     public function index()
     {
+        $a = 1/0;
         view('welcome');
     }
     public function getToken(Request $request){
