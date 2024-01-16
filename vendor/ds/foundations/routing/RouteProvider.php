@@ -4,8 +4,11 @@ namespace Ds\Foundations\Routing;
 
 use App\Middlewares\Kernel;
 use Closure;
+use DebugBar\DebugBar;
 use Ds\Dir;
 use Ds\Foundations\Common\Func;
+use Ds\Foundations\Config\Env;
+use Ds\Foundations\Debug\DsDebug;
 use Ds\Foundations\Network\Middleware;
 use Ds\Foundations\Network\Request;
 use Ds\Foundations\Network\Response;
@@ -29,6 +32,9 @@ class RouteProvider extends Kernel implements Provider
     function install()
     {
         require_once Dir::$ROUTE . 'web.php';
+        if(Env::get('DEBUG_BAR') == 'true'){
+            new DsDebug();
+        }
         Func::check('RouteProvider installed !');
     }
     function run()
@@ -124,7 +130,7 @@ class RouteProvider extends Kernel implements Provider
                 $params[] = new Request();
                 $response = call_user_func_array($route->target, $params);
             } else if ($route->target instanceof Closure) {
-                $params[] = new Request();
+                // $params[] = new Request();
                 $response = call_user_func_array($route->target, $params);
             }
             $this->response($response);

@@ -4,6 +4,7 @@ $config['APP_NAME']='MY Web APP';
 $config['BASE_URL']='localhost';
 $config['STATUS']='development';
 $config['SECRET_KEY']='MDA313354';
+$config['DEBUG_BAR']='false';
 $config['DRIVER']='mysql';
 $config['HOST']='localhost';
 $config['USERNAME']='root';

@@ -15,7 +15,6 @@ spl_autoload_register(function ($name) {
     } else if($namespace == 'App'){
         require_once dirname(dirname(__DIR__)) . '\\' . $name . '.php';
     }
-    
 });
 abstract class AppIndex {
     public static $SERVER_PROTOCOL;

@@ -2,7 +2,11 @@
 namespace Ds\Foundations\View;
 
 use Ds\Dir;
+use Ds\Foundations\Common\Func;
+use Ds\Foundations\Exceptions\dsException;
+use Exception;
 
+// enc: SHA1
 class CacheView
 {
     private static $arr_times = null;
@@ -14,8 +18,27 @@ class CacheView
     {
         $source = file_get_contents($filename);
         $matches = [];
-        preg_match_all('/\@use\(\'.*\'\)/i', $source, $matches);
-        return count($matches[0]) > 0;
+        preg_match_all('/\@use\(\'(.*)\'\)/i', $source, $matches);
+        $rootUpdated = false;
+        $roots = $matches[1];
+        if(count($roots) > 0){
+            foreach ($roots as $rootfilename) {
+                $pie = Dir::$VIEWS.$rootfilename.'.pie';
+                $piePhp = $pie.'.php';
+                if(file_exists($piePhp)){
+                    $cacheView = new CacheView(sha1($pie).'.php', $piePhp);
+                    $rootUpdated = $cacheView->is_modified();
+                    if($rootUpdated){
+                        $cacheView->record_file();
+                    }
+                }else{
+                    $ex = new dsException( 'File '.$rootfilename.'.php does not exist!', $filename, -1);
+                    $ex->show_exception(true);
+                    die();
+                }
+            }
+        }
+        return $rootUpdated;
     }
 
     public function __construct($dir_enc_cache, $real_filename){
