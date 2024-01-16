@@ -5,6 +5,7 @@ namespace App\Controllers;
 use Ds\Helper\Str;
 use Ds\Foundations\Config\Env;
 use Ds\Foundations\Controller\Controller;
+use Ds\Foundations\Debugger\Debug;
 use Ds\Foundations\Network\Request;
 use Firebase\JWT\JWT;
 
@@ -12,6 +13,7 @@ class IndexController extends Controller
 {
     public function index()
     {
+        Debug::log('Test error handler in IndexController');
         $a = 1/0;
         view('welcome');
     }
