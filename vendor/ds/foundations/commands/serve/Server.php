@@ -27,8 +27,8 @@ class Server extends Runner
         $_host = $_host == '' ? 'localhost' : $_host;
         // is command is run
         // get a new port for web server
-        $root = ($dir == STRING_EMPTY || strstr('root', $dir) == STRING_EMPTY) ?
-            '-t public/' : STRING_EMPTY;
+        // $root = ($dir == STRING_EMPTY || strstr('root', $dir) == STRING_EMPTY) ?
+        //     '-t ' : STRING_EMPTY;
         $port = 8000;
         $err = '';
         // check active port
@@ -47,7 +47,7 @@ class Server extends Runner
             if ($mac) ("open \"http://" . $_serverRun . "\"");
 
             // Start web server command
-            exec('php -S ' . $_serverRun . ' ' . $root);
+            exec('php -S ' . $_serverRun);
         } else {
             Console::write('Failed to connect !', Console::RED);
         }
