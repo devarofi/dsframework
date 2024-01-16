@@ -16,12 +16,14 @@ class dsException extends Exception
             $dsE = new dsException($msg, $filename, $line);
             $dsE->show_exception(true);
             Debug::error($dsE);
+            Debug::writeLog();
             die();
         });
         set_exception_handler(function($ex){
             $dsE = new dsException($ex, $ex->getFile(), $ex->getLine(), $ex->getMessage());
             $dsE->show_exception(true);
             Debug::error($dsE);
+            Debug::writeLog();
             die();
         });
     }

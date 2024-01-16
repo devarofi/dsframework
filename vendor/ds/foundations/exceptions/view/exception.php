@@ -82,7 +82,7 @@ use function Ds\Base\App\Config\env;
         }
 
         .ds_line_break_error {
-            background-color: #ff00007d;
+            background-color: #ee990045;
             height: 20px;
             width: 10000%;
             display: block;
