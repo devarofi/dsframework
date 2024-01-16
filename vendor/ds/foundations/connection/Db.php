@@ -165,6 +165,7 @@ class Db extends QueryCommon
     private function getHostConnection()
     {
         $_db_key = $_host_key = STRING_EMPTY;
+        if(Str::empty($this->driver) || Str::empty($this->database)) return null;
         switch ($this->driver) {
                 // MySql Provider
             case MYSQL:
