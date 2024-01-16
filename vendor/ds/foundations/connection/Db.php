@@ -145,7 +145,7 @@ class Db extends QueryCommon
     {
         try {
             $con_string = $this->getHostConnection();
-            if (is_null($this->connection) && !Str::empty($con_string)) {
+            if (is_null($this->connection) && $con_string != null) {
                 $this->connection = new PDO($con_string, Env::get('USERNAME'), Env::get('PASSWORD'));
                 $this->connection->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
             }
