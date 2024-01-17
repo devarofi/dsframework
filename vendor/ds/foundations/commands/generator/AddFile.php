@@ -65,7 +65,7 @@ class AddFile extends Runner
       }
       $source = file_get_contents(__DIR__ . '/template/controller.empty');
       $source = Str::replace($source, [
-        '{ControllerName}' => $file
+        '{ControllerName}' => $_filenames
       ]);
       $_filenames = ucfirst($_filenames);
       $this->createFile($_filenames, 'controllers', $source);
