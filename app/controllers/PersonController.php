@@ -2,13 +2,19 @@
 namespace App\Controllers;
 
 use App\Models\Person;
+use Ds\Foundations\Connection\Db;
 use Ds\Foundations\Controller\Controller;
 use Ds\Foundations\Network\Request;
 
 class PersonController extends Controller {
   public function index(){
-    $data = Person::select()->orderBy('name')->get_assoc();
-    return ['data' => $data];
+    $personModel = new Person();
+    $summary = $personModel->getSummary();
+    $data = $personModel->getAll();
+    return response(true, [
+      'summary' => $summary,
+      'list' => $data
+    ]);
   }
   public function savePerson(Request $request){
     $data = $request->json();

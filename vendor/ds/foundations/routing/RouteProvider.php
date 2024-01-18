@@ -6,6 +6,7 @@ use App\Middlewares\Kernel;
 use Closure;
 use Ds\Dir;
 use Ds\Foundations\Common\Func;
+use Ds\Foundations\Debugger\Debug;
 use Ds\Foundations\Network\Request;
 use Ds\Foundations\Network\Response;
 use Ds\Foundations\Provider;
@@ -132,6 +133,7 @@ class RouteProvider extends Kernel implements Provider
     function response($value)
     {
         if (is_array($value) || is_object($value)) {
+            Debug::disabled();
             header('Content-Type:application/json');
             echo json_encode($value);
         } else {

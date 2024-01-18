@@ -78,7 +78,7 @@ abstract class Route extends Kernel
     }
     public static function group(String $name, Closure $routes)
     {
-        self::$groupName = '/' . trim($name, " \n\r\t\v\0/");
+        self::$groupName .= '/' . trim($name, " \n\r\t\v\0/");
         $routes();
         self::$groupName = null;
     }

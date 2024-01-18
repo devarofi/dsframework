@@ -1,11 +1,8 @@
 <?php
 
-use App\Controller\AccountController;
+use App\Controllers\AccountController;
 use App\Controllers\IndexController;
 use App\Controllers\PersonController;
-use App\Models\Account;
-use Ds\Foundations\Common\Func;
-use Ds\Foundations\Network\Request;
 use Ds\Foundations\Routing\Route;
 
 Route::get('/', [IndexController::class, 'index'])->middleware('http');

@@ -6,6 +6,7 @@
 
 namespace Ds\Foundations\Connection\Models;
 
+use Ds\Foundations\Common\Func;
 use Ds\Foundations\Connection\DatabaseProvider;
 use Ds\Foundations\Connection\Db;
 use Ds\Helper\Date;

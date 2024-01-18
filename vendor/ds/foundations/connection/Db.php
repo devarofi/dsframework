@@ -359,7 +359,7 @@ class Db extends QueryCommon
                 $quotedColumn = $this->WrapQuot($column);
                 // for [ column1, column2, column3]
                 if (is_numeric($key)) {
-                    $selectedColumns[] = $this->WrapQuot($columnAlias . $quotedColumn, false);
+                    $selectedColumns[] = $quotedColumn;
                 }
                 // for [ column1 => alias1, column2 => alias2, ... ]
                 else {

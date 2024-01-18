@@ -2,6 +2,7 @@
 
 namespace Ds;
 
+use Ds\Foundations\Common\Func;
 use Ds\Foundations\Config\AppEnv;
 
 define('STRING_EMPTY', '');
@@ -16,6 +17,14 @@ spl_autoload_register(function ($name) {
         require_once dirname(dirname(__DIR__)) . '\\' . $name . '.php';
     }
 });
+
+function dd(...$var){
+    foreach ($var as $v) {
+        Func::check($v, true);
+    }
+    die();
+}
+
 abstract class AppIndex {
     public static $SERVER_PROTOCOL;
     public static $HTTP_HOST;

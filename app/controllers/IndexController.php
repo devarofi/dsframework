@@ -13,8 +13,6 @@ class IndexController extends Controller
 {
     public function index()
     {
-        Debug::log('Test error handler in IndexController');
-        $a = 1/0;
         view('welcome');
     }
     public function getToken(Request $request){
