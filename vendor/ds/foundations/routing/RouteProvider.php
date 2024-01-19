@@ -79,7 +79,7 @@ class RouteProvider extends Kernel implements Provider
 
         Func::check('Iterating : ' . $iterate);
     }
-    public function validateMiddleware(RouteData $route): bool
+    public function validateMiddleware(RouteData $route, Request $request):Response
     {
         $middlewares = null;
         if (is_string($route->middlewares)) {
@@ -89,7 +89,7 @@ class RouteProvider extends Kernel implements Provider
         }
         // execute middleware 
         $countMiddlewares = count($middlewares);
-        $continue = new Response();
+        $continue = new Response(true, $request);
         for ($i = 0; $i < $countMiddlewares; $i++) {
             $mName = $middlewares[$i];
             if (!isset($this->middlewareAlias[$mName])) {
@@ -98,8 +98,8 @@ class RouteProvider extends Kernel implements Provider
                 die();
             }
             $classM = new $this->middlewareAlias[$mName]();
-            $continue = $classM->handle(new Request(), function () {
-                return new Response();
+            $continue = $classM->handle($continue->request, function (Request $request = new Request()) {
+                return new Response(true, $request);
             }) ?? new Response(false);
 
             if (!$continue->isValid) {
@@ -107,13 +107,15 @@ class RouteProvider extends Kernel implements Provider
                 die();
             }
         }
-        return true;
+        return $continue;
     }
     public function executeRoute(RouteData $route, array $params = [])
     {
         if ($route instanceof RouteData) {
+            $middlewareResponse = new Response();
             if ($route->middlewares != null) {
-                if (!$this->validateMiddleware($route)) {
+                $middlewareResponse = $this->validateMiddleware($route, $middlewareResponse->request);
+                if (!$middlewareResponse) {
                     return; // TODO Route Validation
                 }
             }
@@ -121,7 +123,7 @@ class RouteProvider extends Kernel implements Provider
             if (is_array($route->target)) {
                 $obj = new $route->target[0]();
                 $route->target[0] = $obj;
-                $params[] = new Request();
+                $params[] = $middlewareResponse->request;
                 $response = call_user_func_array($route->target, $params);
             } else if ($route->target instanceof Closure) {
                 // $params[] = new Request();

@@ -4,7 +4,8 @@ namespace Ds\Foundations\Routing;
 
 use App\Middlewares\Kernel;
 use Closure;
-use Ds\Foundations\Common\Func;
+use Ds\Foundations\Routing\Attributes\Get;
+use ReflectionClass;
 
 abstract class Route extends Kernel
 {
@@ -76,10 +77,35 @@ abstract class Route extends Kernel
         $routes();
         self::$middlewares = null;
     }
-    public static function group(String $name, Closure $routes)
+    public static function group(String $name, Closure|string $routes)
     {
         self::$groupName .= '/' . trim($name, " \n\r\t\v\0/");
-        $routes();
+        if(!is_string($routes)){
+            $routes();
+        }else{
+            self::registerRouteByClass($routes);
+        }
         self::$groupName = null;
+    }
+    private static function registerRouteByClass(string $controllerName){
+        $controller = new $controllerName();
+        $reflectionController = new ReflectionClass($controller);
+        $methods = $reflectionController->getMethods();
+        $lenMethods = count($methods);
+        for ($i=0; $i < $lenMethods; $i++) { 
+            $method = $methods[$i];
+            $attributes = $method->getAttributes(Get::class);
+            if(isset($attributes[0])){
+                $lenAttributes = count($attributes);
+                for ($j=0; $j < $lenAttributes; $j++) { 
+                    $attribute = $attributes[$j];
+
+                    $methodName = $method->getName();
+                    $attrRoute = $attribute->newInstance();
+                    $attrRoute->apply($controllerName, $methodName);
+                }
+            }
+
+        }
     }
 }

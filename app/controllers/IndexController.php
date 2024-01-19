@@ -22,7 +22,7 @@ class IndexController extends Controller
         }
         $payload = [
             'token' => $request->access_token,
-            'email' => $request->email
+            'email' => $request->email,
         ];
         $secret_key = Env::get('SECRET_KEY');
         $jwt = JWT::encode($payload, $secret_key, 'HS256');

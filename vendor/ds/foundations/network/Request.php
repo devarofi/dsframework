@@ -2,6 +2,9 @@
 
 namespace Ds\Foundations\Network;
 
+use AllowDynamicProperties;
+
+#[AllowDynamicProperties]
 class Request
 {
     public function __construct()
@@ -19,9 +22,12 @@ class Request
     {
         switch ($name) {
             case 'headers':
-                return headers_list();
+                return getallheaders();
             default:
                 return $_REQUEST[$name];
         }
+    }
+    public function add($propName, $value){
+        $this->{$propName} = $value;
     }
 }

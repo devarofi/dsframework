@@ -104,11 +104,11 @@ class QueryCommon
             }, explode(' ', $columnName));
             return substr($name, 0, strpos($name, '.') + 1) . implode(' ', $columnAlias);
         }
-        if (Str::contains(' ', $name)) {
+
+        if (Str::contains($name, ' ')) {
             $spaceIdx = strrpos($name, ' ');
             $selected = substr($name, 0, $spaceIdx);
             $alias = substr($name, $spaceIdx + 1);
-
             return $this->FixQuot($selected) . ' ' . $this->FixQuot($alias);
         }
         $isFunction = preg_match('/.*[(].*[)]/', $name);
