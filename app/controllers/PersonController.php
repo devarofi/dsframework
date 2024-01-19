@@ -11,7 +11,7 @@ use Ds\Foundations\Routing\Attributes\Post;
 class PersonController extends Controller {
 
   #[Get('/user/all')]
-  public function index(Request $request){
+  public function index(){
     $personModel = new Person();
     $summary = $personModel->getSummary();
     $data = $personModel->getAll();

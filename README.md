@@ -115,4 +115,104 @@ Example : ``welcome.pie.php``
 |``@if(...):``|``@endif``|Same as ``<?php if(..): ?>`` in php|
 
 
-based on @daevsoft - dsframework
+# Advanced
+
+## Middleware
+```php
+class AuthMiddleware implements Middleware
+{
+    public function handle(Request $request, $next): Response|null
+    {
+        // if middleware was passed
+        if(true){
+            return $next($request);
+        }else{
+            return null;
+        }
+    }
+}
+```
+Assign middleware into Route
+```php
+Route::get('/all-person', [ PersonController::class, 'index' ])
+            ->middleware(['auth']);
+```
+
+### Passing data from Middleware to Controller
+```php
+class AuthMiddleware implements Middleware
+{
+    public function handle(Request $request, $next): Response|null
+    {
+        // find person data by id
+        $personData = Person::find($request->person_id); 
+        // if middleware was passed
+        if($personData != null){
+            $request->add('person', $personData);
+            return $next($request);
+        }else{
+            return null;
+        }
+    }
+    ...
+}
+```
+Then retrieve data in controller
+```php
+class PersonController extends Controller
+{
+    public function index(Request $request)
+    {
+        $person = $request->person;
+
+        var_dump($person);
+    }
+    ...
+}
+```
+
+## Routing
+If you want to grouping routes based on controller, you can write like this :
+`app/route/web.php`
+```php
+Route::group('/user', UserController::class);
+```
+Then, in controller class :
+`app/controllers/UserController.php`
+```php
+class UserController extends Controller 
+{
+    #[Get('/all')]
+    public void index()
+    {
+        ...
+    }
+
+    #[Get('/detail/{userId}')]
+    public void userById($userId)
+    {
+        ...
+    }
+
+    #[Post('/save')]
+    public void saveUser(Request $request)
+    {
+        ...
+    }
+
+    #[Delete('/delete')]
+    public void deleteUser()
+    {
+        ...
+    }
+}
+```
+Then, you can access by address like this :<br>
+GET | `http://localhost:8000/user/all` <br>
+GET | `http://localhost:8000/user/detail/3` <br>
+POST | `http://localhost:8000/user/save` <br>
+DELETE | `http://localhost:8000/user/delete` <br>
+
+<footer>
+<small>based on [@daevsoft/dsframework](https://github.com/daevsoft/dsframework)</small>
+</footer>
