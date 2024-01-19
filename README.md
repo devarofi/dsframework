@@ -212,7 +212,5 @@ GET | `http://localhost:8000/user/all` <br>
 GET | `http://localhost:8000/user/detail/3` <br>
 POST | `http://localhost:8000/user/save` <br>
 DELETE | `http://localhost:8000/user/delete` <br>
-
-<footer>
-<small>based on [@daevsoft/dsframework](https://github.com/daevsoft/dsframework)</small>
-</footer>
+<br>
+based on [@daevsoft/dsframework](https://github.com/daevsoft/dsframework)
