@@ -4,8 +4,47 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "a3a38f79a482d2363332e2d058651af1",
+    "content-hash": "85586405132b33a0ef3c02a6a191cff4",
     "packages": [
+        {
+            "name": "daevsoft/framework",
+            "version": "3.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/Daevsoft/dsframework.git",
+                "reference": "8b84ec68435d1bae3062c8ab9b057bcb5d15a8e1"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/Daevsoft/dsframework/zipball/8b84ec68435d1bae3062c8ab9b057bcb5d15a8e1",
+                "reference": "8b84ec68435d1bae3062c8ab9b057bcb5d15a8e1",
+                "shasum": ""
+            },
+            "require": {
+                "php": "^8.1"
+            },
+            "type": "library",
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "daevsoft",
+                    "email": "muhamad.deva.arofi@gmail.com"
+                }
+            ],
+            "description": "The Dsframework",
+            "keywords": [
+                "framework",
+                "laravel"
+            ],
+            "support": {
+                "issues": "https://github.com/Daevsoft/dsframework/issues",
+                "source": "https://github.com/Daevsoft/dsframework/tree/3.0.0"
+            },
+            "time": "2024-01-19T10:18:30+00:00"
+        },
         {
             "name": "firebase/php-jwt",
             "version": "v6.10.0",

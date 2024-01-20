@@ -1,14 +1,15 @@
 {
     "autoload": {
         "files": [
-            "vendor/ds/base.php"
+            "vendor/daevsoft/framework/base.php"
         ],
         "psr-4": {
-            "Ds\\": "vendor/ds"
+            "Ds\\": "vendor/daevsoft/framework"
         }
     },
     "require": {
         "firebase/php-jwt": "^6.10",
-        "maximebf/debugbar": "1.*"
+        "maximebf/debugbar": "1.*",
+        "daevsoft/framework": "^3.0"
     }
 }

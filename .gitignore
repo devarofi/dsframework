@@ -1,3 +1,3 @@
-/vendor/*
-!/vendor/ds
+/app/controllers/*
+vendor
 .env
