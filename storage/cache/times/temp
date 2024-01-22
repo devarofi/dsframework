@@ -1,7 +1,5 @@
 <?php
 return [
-	'7545a728fce697b9d9b936f9736323d955575ee3.php'=>'1705386066',
-	'E:\Files\dsframework-nextgen\dsframework/storage/cache/views/9bdf5d4e0b11805b0e7f19b20cd8dd0bb932592e.php'=>'1705377490',
-	'E:\Files\dsframework-nextgen\dsframework/storage/cache/views/9bdf5d4e0b11805b0e7f19b20cd8dd0bb932592e.php'=>'1705377490',
-	'E:\Files\dsframework-nextgen\dsframework/storage/cache/views/9bdf5d4e0b11805b0e7f19b20cd8dd0bb932592e.php'=>'1705377490',
+	'8f5407e410eeab7d8de57b3f756bba9a8fe25a01.php'=>'1705386066',
+	'E:\Files\dsframework-nextgen\dsframework\storage/cache/views/c42229d13fba7e1ea45f5d76670aebeeadc1b953.php'=>'1705377490',
 ];
