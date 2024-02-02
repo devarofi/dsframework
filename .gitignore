@@ -1,3 +1,13 @@
 /app/controllers/*
 vendor
 .env
+
+/storage/cache/*
+
+
+/tests/*
+!/tests/SampleTest.spec.php
+!/tests/unit/
+
+/tests/unit/*
+!/tests/unit/sample.spec.php

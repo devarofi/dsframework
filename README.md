@@ -1,7 +1,38 @@
-# dsframework
-PHP Ds Framework Next Generation
+# PHP DsFramework
+PHP DsFramework Next Generation MVC framework. Inspired by Laravel and CodeIgniter framework with cutting edge complexity proccess.
+
+## Getting Started
+DsFramework support for PHP 8.1 or latest to work properly. <br>
+<b>Requirements :</b>
+* PHP 8.1 or [latest](https://php.net)
+* [Composer](https://getcomposer.org/download/)
+
+### How to run?
+First, install dependencies from composer with `composer install` command in terminal. <br>
+Second, run a project with `php ds serve` command. Done.
+
+### Connect Database
+To connecting into database, open the `.env` file and set your database configuration in the name prefix `DB_` property.<br>
+<b>Example: </b>
+```.env
+DB_DRIVER=mysql
+DB_HOST=localhost
+DB_USERNAME=root
+DB_PASSWORD=mypassword
+DB_NAME=somethingdb
+DB_PORT=3306
+SSL_CERT=
+SSL_VERIFY=false
+``` 
+Leave `DB_NAME` blank if a web application does not require a database. 
+
+### ENV File
+The `.env` file is a constant value for the application configuration. When the file has been modified, refresh the configuration cache with the `php ds config` command in the terminal.
 
 ## Model
+Open terminal and write a command : `php ds add:model modelName` <br>
+Or generate multiple model : `php ds add:model modelname1 modelname2 modelnameOther` <br>
+Example : `php ds add:model People` then model file `app/models/People.php` will be generated
 ```php
 namespace App\Models;
 
@@ -13,6 +44,9 @@ class People extends DsModel {
 ```
 
 ## Controller
+Open terminal and write a command : `php ds add:controller ControllerName` <br>
+Or generate multiple controller : `php ds add:controller controllername1 controllername2 controllernameOther` <br>
+Example of controller :
 ```php
 class IndexController extends Controller
 {
@@ -48,6 +82,7 @@ class IndexController extends Controller
 ```
 
 ## Routing
+The routing of web application is defined in the `app/route/web.php` file. 
 Example :
 ```php
 // with callback controller method
@@ -91,7 +126,11 @@ Route::group('admin', function () {
 ```
 
 ## View
-Example : ``welcome.pie.php``
+Open terminal and write a command : `php ds add:view viewname` <br>
+Or generate multiple view : `php ds add:view viewname1 viewname2 viewnameOther` <br>
+Or generate in subdirectory : `php ds add:view pages/viewname` and `views/pages/` directory will generate automatically. <br>
+<br>
+Example view file : `welcome.pie.php`
 ```html
 <html>
     <head>
@@ -213,4 +252,42 @@ GET | `http://localhost:8000/user/detail/3` <br>
 POST | `http://localhost:8000/user/save` <br>
 DELETE | `http://localhost:8000/user/delete` <br>
 <br>
+
+## Testing
+Dsframework support for testing and unit test. <br />
+Write `php ds add:test SampleTest OtherTest` in terminal, and test file will generate automatically into `\tests` folder.
+
+```php
+class SampleTest extends TestCase{
+  public function test_sample(){
+    $expect = 'hello';
+    $this->assertTrue('hello' == $expect);
+  }
+}
+```
+
+### Unit Test
+Or, using `--unit` options to generate unit test file. <br>
+`php ds add:test --unit SampleTest` command.
+```php
+describe('Count is one thousand', function(){
+  $count = 0;
+  for ($i=0; $i < 1000; $i++) { 
+    $count += $i;
+  }
+  return Assert::check($count == 1000);
+});
+// OR mock DatabaseProvider to support Model
+describe('One is one number', function(){
+  mock(DatabaseProvider::class);
+  $account = Account::find(7);
+
+  return Assert::equal($account->id, 7);
+});
+
+```
+### Run Test
+To run your test file, type a command `php ds test` or `php ds test --unit` for unit test file. Then, all test files will be executed.
+<br/>
+
 based on [@daevsoft/dsframework](https://github.com/daevsoft/dsframework)
